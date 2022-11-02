@@ -11,7 +11,6 @@ router.get('/',isLoggedIn,renderCircular)
 router.post('/',isLoggedIn,upload.single('pdf'),modifyPdf,postCircular)
 router.get('/all/:platform',getAllCircular)
 router.delete('/:id',deleteCircular)
-
 router.get('/add/acadamic_year',isLoggedIn,createfolder)
 
 module.exports=router;

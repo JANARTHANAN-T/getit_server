@@ -13,7 +13,7 @@ module.exports.getsignup=async (req,res)=>{
 }
 
 module.exports.signUp = async (req, res) => {
-    const { name, rollno, email, department, password, batch, type,deviceId} =  req.body
+    const { name, taluk,district,pincode, email, password,deviceId,preference} =  req.body
     try {
         const existinguser = await User.findOne({ email })
 
@@ -21,7 +21,7 @@ module.exports.signUp = async (req, res) => {
             return res.status(400).json({ message: 'User already found..' })
         }
         const hashPassword = await bcrypt.hash(password, 12);
-        const newUser = new User({ name, rollno, email, department, batch, type,deviceId, password: hashPassword })
+        const newUser = new User({ name, email,taluk,district,pincode,deviceId,preference, password: hashPassword })
         await newUser.save();
         const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'token', { expiresIn: '1h' })
             res.status(200).json({ result: newUser, token })
@@ -35,36 +35,27 @@ module.exports.signUp = async (req, res) => {
 module.exports.webSignUp = async(req,res) =>{
         const { name,department,password,email,type} =  req.body
         try{
-         let femail_pattern=/^([a-z]+)\.([a-z]{2,5})\@([a-z]+)\.([a-z]{2,5})$/;
-         let result1=femail_pattern.test(email)
-        if(!result1 &&!email.endsWith('kongu.edu') ){
-            req.flash('error','Invalid email')
-          return res.redirect('/user/register')
-        }
-        var isAdmin=false,isDeptAdmin=false
-        var rollno=''
-        const existinguser = await User.findOne({ email })
-        if (existinguser) {
-            req.flash('error','User found already')
-            return res.redirect('/user/register')
-        }
-        if(type=='admin'){
-            isAdmin=true
-            rollno='admin'
-        }else if (type=='department-admin'){
-            isDeptAdmin=true
-            rollno=`${department}admin`
-        }
-        const hashPassword = await bcrypt.hash(password, 12);
-        const newUser = new User({ name,  email, rollno,type, department,isAdmin,isDeptAdmin, password: hashPassword })
-        await newUser.save();
-        req.session._id = newUser._id;
-        res.locals.currentUser = newUser._id
-        req.flash('success','Account created')
-        res.redirect('/')    
-    }catch(err){
+            var isAdmin=false,isDeptAdmin=false
+            const existinguser = await User.findOne({ email })
+            if (existinguser) {
+                req.flash('error','User found already')
+                return res.redirect('/user/register')
+            }
+            if(type=='admin'){
+                isAdmin=true
+            }else if (type=='department-admin'){
+                isDeptAdmin=true   
+            }
+            const hashPassword = await bcrypt.hash(password, 12);
+            const newUser = new User({ name,email,department,type,isAdmin,isDeptAdmin, password: hashPassword })
+            await newUser.save();
+            req.session._id = newUser._id;
+            res.locals.currentUser = newUser._id
+            req.flash('success','Account created')
+            res.redirect('/')    
+            }catch(err){
 
-    }   
+            }   
 }
 
 
@@ -144,3 +135,17 @@ module.exports.deleteDeviceId = async(req,res)=>{
         res.status(500).send(error)
     }
 }
+
+
+module.exports.addPreferences = async(req,res)=>{
+    try {
+        const {id,preference}=req.body
+        const user=await User.findById(id)
+        user.preference =[...user.preference,...preference]
+        await user.save()
+        res.status(200).json('success')
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+

@@ -12,6 +12,10 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    department:{
+        type:String,
+        default:'-'
+    },
     password: {
         type: String,
     },

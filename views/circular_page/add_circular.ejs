@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group mb-3 col-6">
                   <label class="form-label" for="batch">Select Distict</label>
-                <select class="form-select " id="batch" name="batch" size="5" required multiple
+                <select class="form-select " id="batch" name="district" size="5" required multiple
                   aria-label="multiple select example">
                   <option value="all" selected>All</option>
                   
@@ -32,9 +32,9 @@
                 </select>
                 </div>
                 <div class="form-group mb-3 col-6">
-                  <label class="form-label" for="dept">Select Departments</label>
-                  <select class="form-select " id="dept" name="dept" size="5" required multiple aria-label="multiple select example">
-                    <option value="all" selected>All</option>
+                  <label class="form-label" for="dept">Select Department</label>
+                  <select class="form-select " id="dept" name="dept" required >
+                  
                   <% department.dept.forEach(element=> { %>
                     <option value="<%= element %> ">
                       <%= element %>
