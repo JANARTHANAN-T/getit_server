@@ -51,7 +51,7 @@ module.exports.postCircular = async(req,res) =>{
 module.exports.renderCircular = async (req, res) => {
     var increment;
     var year=new Date().getFullYear()
-    const batchYear=[]
+    const batchYear=[]  
     const department=await Constant.findOne({});
     const user=await User.findOne({_id:req.session._id})
     console.log(user);
