@@ -18,7 +18,8 @@ const {decode} = require('base64-arraybuffer')
      // Fetch an existing PDF document
      var urlEncoded = encodeURI('');
      const url = `${__dirname}/../${req.file.path.substring(6)}`;
-    //  const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+   //   const url = `${__dirname}/../circular_pdf/2022/pdf-lib_form_creation_example.pdf`;
+   //   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
 
      const buffer=await readFile(url)
      const arraybuf = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset+buffer.byteLength)
