@@ -17,12 +17,12 @@ const circularSchema = new Schema({
     type:Date,
     required:true
    },
-   batch:{
+   district:{
     type:[String],
     required:true
    },
    dept:{
-    type:[String],
+    type:String,
     required:true
    },
    postedBy:{

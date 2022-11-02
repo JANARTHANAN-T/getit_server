@@ -7,10 +7,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    rollno: {
-        type: String,
-        unique: true
-    },
     email: {
         type: String,
         required: true,
@@ -19,20 +15,16 @@ const userSchema = new Schema({
     password: {
         type: String,
     },
-    department: {
-        type: String,
-        default:"All"
-    },
-    batch: {
+    district: {
         type: String,
     },
-    type: {
+    taluk: {
         type: String,
     },
-    isAdmin:{
-        type: Boolean,
-        default:false,
+    pincode: {
+        type: String,
     },
+    preference:[ String ],
     isDeptAdmin:{
         type: Boolean,
         default:false,
@@ -40,7 +32,6 @@ const userSchema = new Schema({
     deviceId:{
         type:String,
         default:"-",
-      //  required: true
     },
     joinedOn:{
         type: Date,
