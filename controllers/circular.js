@@ -11,23 +11,23 @@ module.exports.postCircular = async(req,res) =>{
         const result = {
             postedOn: Date.now(),
             title: req.body.title,
-            batch: req.body.batch,
+            district: req.body.district,
             dept: req.body.dept,
             number: req.body.number,
             filePath: req.file.path.substring(6),
             postedBy: req.session._id
         }
         var userlist;
-        if (req.body.dept == 'all' && req.body.batch == 'all') {
-            userlist = await User.find({});
+        if (req.body.district == 'all' ){
+            userlist = await User.find({dept:req.body.dept});
             console.log(userlist+"alll")
         }
-        else if (req.body.dept == 'all' || req.body.batch == 'all') {
-            userlist = await User.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
-            console.log(userlist+"any one")
-        }
+        // else if (req.body.dept == 'all' || req.body.batch == 'all') {
+        //     userlist = await User.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.de } }] });
+        //     console.log(userlist+"any one")
+        // }
         else {
-            userlist = await User.find({ $and: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.batch } }] });
+            userlist = await User.find({ $and: [{ preference: { $in: req.body.dept } }, { district: { $in: req.body.district } }] });
             console.log(userlist+"none")
         }
         console.log(userlist);
@@ -49,15 +49,12 @@ module.exports.postCircular = async(req,res) =>{
 }
 
 module.exports.renderCircular = async (req, res) => {
-    var increment;
-    var year=new Date().getFullYear()
-    const batchYear=[]  
+   
+  
+    
     const department=await Constant.findOne({});
     const user=await User.findOne({_id:req.session._id})
-    console.log(user);
-    for(increment=-4;increment<=4;increment++){
-        batchYear.push(year-increment);
-    }
+  
     var districts = ["Ariyalur","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Salem","Sivaganga","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"];
   res.render("circular_page/add_circular.ejs",{districts,department,user})
     
@@ -150,3 +147,5 @@ try {
   res.redirect('/')
 }
 }
+
+

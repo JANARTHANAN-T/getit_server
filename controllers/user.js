@@ -144,3 +144,17 @@ module.exports.deleteDeviceId = async(req,res)=>{
         res.status(500).send(error)
     }
 }
+
+
+module.exports.addPreferences = async(req,res)=>{
+    try {
+        const {id,preference}=req.body
+        const user=await User.findById(id)
+        user.preference =[...user.preference,...preference]
+        await user.save()
+        res.status(200).json('success')
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
