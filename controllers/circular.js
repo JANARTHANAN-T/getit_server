@@ -58,11 +58,10 @@ module.exports.renderCircular = async (req, res) => {
     for(increment=-4;increment<=4;increment++){
         batchYear.push(year-increment);
     }
-    if(user.isAdmin){
-          return  res.render("circular_page/add_circular.ejs",{batchYear,department,user})
-    }
+    var districts = ["Ariyalur","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Salem","Sivaganga","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"];
+  res.render("circular_page/add_circular.ejs",{districts,department,user})
     
-    res.render("dept_circular/add_circular_dept.ejs",{batchYear,user})
+   
 }
 
 module.exports.deleteCircular= async(req,res)=>{

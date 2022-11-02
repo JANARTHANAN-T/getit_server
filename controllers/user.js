@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
 const Constant=require("../models/constant")
+
 var session;
 
 module.exports.getsignup=async (req,res)=>{
