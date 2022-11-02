@@ -24,7 +24,7 @@ const { isLoggedIn } = require("./middleware/auth")
 const userRoutes = require('./routes/user')
 const circularRoutes = require('./routes/circular')
 const notificationRoutes=require('./routes/notification')
-const departmentCircular = require('./routes/departmentCircular')
+
 
 //initilizing
 const app = express()
@@ -79,12 +79,9 @@ var session; //to make variable available in all place
 app.get("/", async(req, res) => {
     session = req.session;
     if (session._id) {
-        const user = await User.findById(session._id)
-        if(user.isAdmin){
+        
             return res.redirect('/circular/all/web')
-        }else{
-            return res.redirect('/dept/all/web')
-        }
+        
     }
     else {
         req.flash("success","Hii")
@@ -97,7 +94,7 @@ app.get("/", async(req, res) => {
 app.use('/user', userRoutes)
 app.use('/circular', circularRoutes)
 app.use('/api',notificationRoutes)
-app.use('/dept',departmentCircular)
+
 
 
 //listening port
