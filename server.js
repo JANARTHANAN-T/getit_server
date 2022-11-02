@@ -99,6 +99,15 @@ app.use('/api',notificationRoutes)
 
 //listening port
 //port
+
+app.get('/departments',async(req,res)=>{
+    try {
+        const dept = await Constant.find()
+        res.status(200).json(dept)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log(`Server is running at Port ${PORT}`)
