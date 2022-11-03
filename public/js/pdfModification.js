@@ -44,8 +44,9 @@ const {decode} = require('base64-arraybuffer')
          firstPage.drawImage(jpgImage, {
             //  x: pages[0].getWidth() / 2 ,
             //  y: pages[0].getHeight() / 2,
-                x:10,
-                y:60,
+            x: pages[0].getWidth()-50,
+                // x:500,
+                y:10,
                 width:40,
                 height: 40,
                //  rotate: degrees(-90)
@@ -54,7 +55,7 @@ const {decode} = require('base64-arraybuffer')
          timestramp=new Date().toString()
          firstPage.drawText(timestramp, {
             x: 20,
-            y: 575,
+            y: 20,
             size: 12,
             font: helveticaFont,
             // color: rgb(0.95, 0.1, 0.1),
