@@ -7,6 +7,7 @@ const fs = require('fs');
 
 
 module.exports.postCircular = async(req,res) =>{
+    
     try{
         const result = {
             postedOn: Date.now(),
@@ -37,7 +38,7 @@ module.exports.postCircular = async(req,res) =>{
                 devices.push(ele.deviceId)
         })
 
-        notify.pushnotify(devices,result.title,"KEC | Circular");
+        notify.pushnotify(devices,result.title,"TN | Circular");
 
         const circular = await new Circular(result);
         await circular.save()

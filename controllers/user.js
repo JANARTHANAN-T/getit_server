@@ -13,7 +13,9 @@ module.exports.getsignup=async (req,res)=>{
 }
 
 module.exports.signUp = async (req, res) => {
+    console.log(req.body)
     const { name, taluk,district,pincode, email, password,deviceId,preference} =  req.body
+    
     try {
         const existinguser = await User.findOne({ email })
 
@@ -71,10 +73,10 @@ module.exports.webLogin = async(req,res) =>{
             req.flash('error','Invalid Credentials')
             return res.redirect('/user/login')
         }
-        if(!existinguser.isAdmin && !existinguser.isDeptAdmin){
-            req.flash('error',"Unauthorised access")
-            return res.redirect('/user/login')
-        }
+        // if(!existinguser.isAdmin && !existinguser.isDeptAdmin){
+        //     req.flash('error',"Unauthorised access")
+        //     return res.redirect('/user/login')
+        // }
         session = req.session;
         req.session._id = existinguser._id
         req.flash('success','Login Successfull')

@@ -11,15 +11,9 @@
                             <div>
                                 <div>Circular Number: <%=ele.number %></div>
                                 <div>Circular Title: <%=ele.title %></div>
-                                <div>Batch: 
-                                <% ele.batch.forEach(element=> { %>
-                                        <%= element %>                                     
-                                    <% }) %>
-                                </div>
                                 <div>Department:
-                                <% ele.dept.forEach(element=> { %>
-                                      <%= element %>
-                                    <% }) %>
+                                      <%= ele.dept %>
+                                    
                                 </div>
                             </div>
                             <div>
