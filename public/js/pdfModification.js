@@ -6,7 +6,8 @@ const {decode} = require('base64-arraybuffer')
 
 
  module.exports.modifyPdf = async(req,res,next) => {
-
+  console.log(req.file.path.substring(6))
+  console.log("done")
     //QR code generation
     var buff
     var u
@@ -66,6 +67,8 @@ const {decode} = require('base64-arraybuffer')
      const pdfBytes = await pdfDoc.save()
 
      await writeFile(url, pdfBytes)
+     console.log("1")
+     next();
 
    //   function base64ToArrayBuffer(base64) {
    //      var binaryString = window.atob(base64);
