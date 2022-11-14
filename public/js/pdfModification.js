@@ -3,15 +3,23 @@ const {readFile, writeFile}= require('fs/promises')
 var QRCode = require('qrcode')
 const {decode} = require('base64-arraybuffer')
 
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey');
 
 
- module.exports.modifyPdf = async(req,res,next) => {
+
+
+ module.exports.modifyPdf = async(req,res,next,) => {
   console.log(req.file.path.substring(6))
   console.log("done")
     //QR code generation
     var buff
     var u
-    QRCode.toDataURL('I am a pony!', function (err, url) {
+    var pdfurl=req.file.path.substring(6)
+    const hashUrl = cryptr.encrypt(pdfurl);
+// const decryptedString = cryptr.decrypt(encryptedString);
+    // const hashUrl = await bcrypt.hash(pdfurl, 12);
+    QRCode.toDataURL(`https://tn-circular.herokuapp.com/${hashUrl}/secured`, function (err, url) {
          buff=decode(url) 
          u=url
     })
