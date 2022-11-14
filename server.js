@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const dotenv = require('dotenv')
 const flash = require('connect-flash');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey');
 
 //models
 const User = require("./models/user");
