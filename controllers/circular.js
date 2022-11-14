@@ -71,7 +71,7 @@ module.exports.deleteCircular = async (req, res) => {
         // path = path + circular.filePath
         // fs.unlinkSync(path)
         req.flash('success', 'Circular has been deleted successfully')
-        res.redirect('/circular/all/web')
+        res.redirect('/circular/all')
     } catch (error) {
         console.log(error)
     }

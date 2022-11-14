@@ -81,15 +81,12 @@ var session; //to make variable available in all place
 app.get("/", async(req, res) => {
     session = req.session;
     if (session._id) {
-        
-            return res.redirect('/circular')
-        
+            return res.redirect('/circular/all')   
     }
     else {
         req.flash("success","Hii")
         res.render('auth_page/login')
     }
-
 })
 
 //routers
