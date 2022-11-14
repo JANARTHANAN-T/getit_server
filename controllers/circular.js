@@ -6,9 +6,9 @@ const fs = require('fs');
 
 
 
-module.exports.postCircular = async(req,res) =>{
-    
-    try{
+module.exports.postCircular = async (req, res) => {
+
+    try {
         const result = {
             postedOn: Date.now(),
             title: req.body.title,
@@ -19,9 +19,9 @@ module.exports.postCircular = async(req,res) =>{
             postedBy: req.session._id
         }
         var userlist;
-        if (req.body.district == 'all' ){
-            userlist = await User.find({dept:req.body.dept});
-            console.log(userlist+"alll")
+        if (req.body.district == 'all') {
+            userlist = await User.find({ dept: req.body.dept });
+            console.log(userlist + "alll")
         }
         // else if (req.body.dept == 'all' || req.body.batch == 'all') {
         //     userlist = await User.find({ $or: [{ department: { $in: req.body.dept } }, { batch: { $in: req.body.de } }] });
@@ -29,7 +29,7 @@ module.exports.postCircular = async(req,res) =>{
         // }
         else {
             userlist = await User.find({ $and: [{ preference: { $in: req.body.dept } }, { district: { $in: req.body.district } }] });
-            console.log(userlist+"none")
+            console.log(userlist + "none")
         }
         console.log(userlist);
         devices = []
@@ -38,11 +38,11 @@ module.exports.postCircular = async(req,res) =>{
                 devices.push(ele.deviceId)
         })
 
-        notify.pushnotify(devices,result.title,"TN | Circular");
+        notify.pushnotify(devices, result.title, "TN | Circular");
 
         const circular = await new Circular(result);
         await circular.save()
-        req.flash('success','Circular Posted successfully')
+        req.flash('success', 'Circular Posted successfully')
         res.redirect('/');
     } catch (err) {
         console.log(err.message)
@@ -50,27 +50,27 @@ module.exports.postCircular = async(req,res) =>{
 }
 
 module.exports.renderCircular = async (req, res) => {
-   
-  
-    
-    const department=await Constant.findOne({});
-    const user=await User.findOne({_id:req.session._id})
-  
-    var districts = ["Ariyalur","Chennai","Coimbatore","Cuddalore","Dharmapuri","Dindigul","Erode","Kanchipuram","Kanyakumari","Karur","Krishnagiri","Madurai","Nagapattinam","Namakkal","Nilgiris","Perambalur","Pudukkottai","Ramanathapuram","Salem","Sivaganga","Thanjavur","Theni","Thoothukudi","Tiruchirappalli","Tirunelveli","Tiruppur","Tiruvallur","Tiruvannamalai","Tiruvarur","Vellore","Viluppuram","Virudhunagar"];
-  res.render("circular_page/add_circular.ejs",{districts,department,user})
-    
-   
+
+
+
+    const department = await Constant.findOne({});
+    const user = await User.findOne({ _id: req.session._id })
+
+    var districts = ["Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"];
+    res.render("circular_page/add_circular.ejs", { districts, department, user })
+
+
 }
 
-module.exports.deleteCircular= async(req,res)=>{
-    const {id}=req.params
+module.exports.deleteCircular = async (req, res) => {
+    const { id } = req.params
     try {
         console.log(__dirname)
-       const path=`${__dirname}/../public/`
-        const circular=await Circular.findByIdAndDelete(id)
-        path=path+circular.filePath
+        const path = `${__dirname}/../public/`
+        const circular = await Circular.findByIdAndDelete(id)
+        path = path + circular.filePath
         fs.unlinkSync(path)
-        req.flash('success','Circular has been deleted successfully')
+        req.flash('success', 'Circular has been deleted successfully')
         res.redirect('/circular/all/web')
     } catch (error) {
         console.log(error)
@@ -90,16 +90,17 @@ module.exports.getAllCircular = async (req, res) => {
     const yesterday = previous;
     try {
         //querry
-        
-        var yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })
-        yesterdayCircular=yesterdayCircular.sort((a,b)=>b.number-a.number);
+
+        var yesterdayCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
 
         var todayCircular = await Circular.find({ postedOn: { $gt: today } })
-        todayCircular = todayCircular.sort((a,b)=>b.number-a.number);
+        var todayCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $gt: today } }] })
+        todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Circular.find({ postedOn: { $lt: yesterday } })
-        allCircular = allCircular.sort((a,b)=>b.number-a.number)
-        
+        var allCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $lt: yesterday } }] })
+        allCircular = allCircular.sort((a, b) => b.number - a.number)
+
         //seperating according to months for all circular
         monthwise = [{ "title": "January", "data": [] },
         { "title": "February", "data": [] },
@@ -127,26 +128,26 @@ module.exports.getAllCircular = async (req, res) => {
     }
 }
 
-module.exports.createfolder=async (req,res)=>{
-const folderName = './public/circular_pdf/2024';
+module.exports.createfolder = async (req, res) => {
+    const folderName = './public/circular_pdf/2024';
 
-try {
-  if (!fs.existsSync(folderName)) {
-  //  const newacadamic=await Circular.deleteMany({});
-    console.log("Folder Created",newacadamic)
-    fs.mkdirSync(folderName);
-    req.flash('success',"New Acadamic Year Created Successfully,All Data in the Previous Year are Deleted")
-    res.redirect('/')
-  }
-  else{
-    req.flash('error',"Folder already Exists")
-    res.redirect('/')
-  }
-} catch (err) {
-  console.error(err);
-  req.flash('error',err.message)
-  res.redirect('/')
-}
+    try {
+        if (!fs.existsSync(folderName)) {
+            //  const newacadamic=await Circular.deleteMany({});
+            console.log("Folder Created", newacadamic)
+            fs.mkdirSync(folderName);
+            req.flash('success', "New Acadamic Year Created Successfully,All Data in the Previous Year are Deleted")
+            res.redirect('/')
+        }
+        else {
+            req.flash('error', "Folder already Exists")
+            res.redirect('/')
+        }
+    } catch (err) {
+        console.error(err);
+        req.flash('error', err.message)
+        res.redirect('/')
+    }
 }
 
 
