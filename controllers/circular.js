@@ -129,11 +129,10 @@ module.exports.getAllWebCircular = async(req,res)=>{
 
 module.exports.getAllCircular = async (req, res) => {
     try{
-        // const {id}=req.params;
-        // const user=await User.findById(id);
-        const preferenceCircular = await Constant.find({})
-        const preference = preferenceCircular[0].dept;
-
+        const {id}=req.params;
+        const user=await User.findById(id);
+     
+        const preference =user.preference;
         const circular=await Circular.find({})
         circular.reverse();
         const preferCircular=await Circular.find({dept :{$in:preference}})
@@ -141,17 +140,17 @@ module.exports.getAllCircular = async (req, res) => {
         for(let i=0;i<preference.length;i++){
                 object={...object,[preference[i]]:{}}
         }
-    console.log(preferCircular)
-    //    for(let i of preferCircular){
-    //         for(let key in object){
-    //             if (key==i.dept){
-    //                 object[key]={...object[key],i};
-    //             }
-    //         }
-    //    }
+   
+       for(let i of preferCircular){
+            for(let key in object){
+                if (key==i.dept){
+                    object[key]={...object[key],i};
+                }
+            }
+       }
 
-    
-        res.send('hello')
+    console.log(object)
+        res.status(200).json({circular,object})
 
     }catch(err){
         res.status(500).send(err.message)
