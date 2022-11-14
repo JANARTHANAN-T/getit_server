@@ -77,7 +77,8 @@ module.exports.deleteCircular = async (req, res) => {
     }
 }
 
-module.exports.getAllCircular = async (req, res) => {
+
+module.exports.getAllWebCircular = async(req,res)=>{
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentDate = new Date().getDate();
@@ -119,13 +120,43 @@ module.exports.getAllCircular = async (req, res) => {
             monthwise[index].data.push(ele)
         })
         //response api seperation
-        req.params.platform == 'web' ?
-            res.render('circular_page/view_allcircular', { allCircular, yesterdayCircular, todayCircular, monthwise }) :
-            res.status(200).json({ allCircular, yesterdayCircular, todayCircular, monthwise })
+            res.render('circular_page/view_allcircular', { allCircular, yesterdayCircular, todayCircular, monthwise }) 
     } catch (err) {
         console.log(err)
         res.status(500).json('Something went worng...')
     }
+}
+
+module.exports.getAllCircular = async (req, res) => {
+    try{
+        // const {id}=req.params;
+        // const user=await User.findById(id);
+        const preferenceCircular = await Constant.find({})
+        const preference = preferenceCircular[0].dept;
+
+        const circular=await Circular.find({})
+        circular.reverse();
+        const preferCircular=await Circular.find({dept :{$in:preference}})
+        let object={}
+        for(let i=0;i<preference.length;i++){
+                object={...object,[preference[i]]:{}}
+        }
+    console.log(preferCircular)
+    //    for(let i of preferCircular){
+    //         for(let key in object){
+    //             if (key==i.dept){
+    //                 object[key]={...object[key],i};
+    //             }
+    //         }
+    //    }
+
+    
+        res.send('hello')
+
+    }catch(err){
+        res.status(500).send(err.message)
+    }
+    
 }
 
 module.exports.createfolder = async (req, res) => {
