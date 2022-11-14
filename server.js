@@ -80,7 +80,7 @@ app.get("/", async(req, res) => {
     session = req.session;
     if (session._id) {
         
-            return res.redirect('/circular/all/web')
+            return res.redirect('/circular')
         
     }
     else {
