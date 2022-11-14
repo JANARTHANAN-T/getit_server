@@ -5,13 +5,14 @@ const {decode} = require('base64-arraybuffer')
 
 
 
- module.exports.modifyPdf = async(req,res,next) => {
+ module.exports.modifyPdf = async(req,res,next,) => {
   console.log(req.file.path.substring(6))
   console.log("done")
     //QR code generation
     var buff
     var u
-    QRCode.toDataURL('I am a pony!', function (err, url) {
+    var pdfurl=req.file.path.substring(6)
+    QRCode.toDataURL(`https://tn-circular.herokuapp.com/${pdfurl}`, function (err, url) {
          buff=decode(url) 
          u=url
     })
