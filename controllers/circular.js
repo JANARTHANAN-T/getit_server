@@ -92,11 +92,11 @@ module.exports.getAllWebCircular = async(req,res)=>{
     try {
         //querry
 
-        var yesterdayCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $gte: yesterday, $lt: today } }] })
+        var yesterdayCircular = await Circular.find({ postedOn: { $gte: yesterday, $lt: today } })
         yesterdayCircular = yesterdayCircular.sort((a, b) => b.number - a.number);
 
         var todayCircular = await Circular.find({ postedOn: { $gt: today } })
-        var todayCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $gt: today } }] })
+        
         todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
         var allCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $lt: yesterday } }] })
