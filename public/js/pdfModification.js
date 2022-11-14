@@ -3,6 +3,10 @@ const {readFile, writeFile}= require('fs/promises')
 var QRCode = require('qrcode')
 const {decode} = require('base64-arraybuffer')
 
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotallySecretKey');
+
+
 
 
  module.exports.modifyPdf = async(req,res,next,) => {
@@ -12,7 +16,10 @@ const {decode} = require('base64-arraybuffer')
     var buff
     var u
     var pdfurl=req.file.path.substring(6)
-    QRCode.toDataURL(`https://tn-circular.herokuapp.com/${pdfurl}`, function (err, url) {
+    const hashUrl = cryptr.encrypt(pdfurl);
+// const decryptedString = cryptr.decrypt(encryptedString);
+    // const hashUrl = await bcrypt.hash(pdfurl, 12);
+    QRCode.toDataURL(`https://tn-circular.herokuapp.com/${hashUrl}/secured`, function (err, url) {
          buff=decode(url) 
          u=url
     })

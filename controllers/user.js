@@ -56,7 +56,7 @@ module.exports.webSignUp = async(req,res) =>{
             req.flash('success','Account created')
             res.redirect('/')    
             }catch(err){
-
+                
             }   
 }
 
