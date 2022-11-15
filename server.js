@@ -113,6 +113,7 @@ app.get('/:id/secured',async(req,res)=>{
         const {id} = req.params
         const decryptedUrl = await cryptr.decrypt(id);
         res.redirect(`/${decryptedUrl}`)
+        
     }catch(e){
         console.log(e);
     }
