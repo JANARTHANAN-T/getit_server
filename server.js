@@ -111,9 +111,8 @@ app.get('/departments',async(req,res)=>{
 app.get('/:id/secured',async(req,res)=>{
     try{
         const {id} = req.params
-        const decryptedUrl =await  cryptr.decrypt(id);
-        const circular =await Circular.find({filePath:decryptedUrl})
-        res.redirect(`/circular/${circular._id}`)
+        const decryptedUrl = await cryptr.decrypt(id);
+        res.redirect(`/${decryptedUrl}`)
     }catch(e){
         console.log(e);
     }

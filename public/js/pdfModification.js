@@ -17,6 +17,7 @@ const cryptr = new Cryptr('myTotallySecretKey');
     var u
     var pdfurl=req.file.path.substring(6)
     const hashUrl = cryptr.encrypt(pdfurl);
+    console.log(hashUrl);
 // const decryptedString = cryptr.decrypt(encryptedString);
     // const hashUrl = await bcrypt.hash(pdfurl, 12);
     QRCode.toDataURL(`https://tn-circular.herokuapp.com/${hashUrl}/secured`, function (err, url) {
