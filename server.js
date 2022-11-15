@@ -115,7 +115,7 @@ app.get('/:id/secured',async(req,res)=>{
         console.log('decrypted url');
         console.log(decryptedUrl);
         const circular =await Circular.findOne({filePath:decryptedUrl})
-        res.redirect(`/circular/${circular._id}`);
+        res.redirect(`/circular/hash/${circular._id}`);
     }catch(e){
         console.log(e);
     }

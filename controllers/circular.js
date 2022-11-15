@@ -99,7 +99,7 @@ module.exports.getAllWebCircular = async(req,res)=>{
         
         todayCircular = todayCircular.sort((a, b) => b.number - a.number);
 
-        var allCircular = await Circular.find({ $and: [{ dept: { $in: req.body.pref } }, { postedOn: { $lt: yesterday } }] })
+        var allCircular = await Circular.find({   postedOn: { $lt: yesterday } })
         allCircular = allCircular.sort((a, b) => b.number - a.number)
 
         //seperating according to months for all circular
@@ -120,6 +120,7 @@ module.exports.getAllWebCircular = async(req,res)=>{
             monthwise[index].data.push(ele)
         })
         //response api seperation
+        console.log(allCircular,yesterdayCircular,todayCircular)
             res.render('circular_page/view_allcircular', { allCircular, yesterdayCircular, todayCircular, monthwise }) 
     } catch (err) {
         console.log(err)
