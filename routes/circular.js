@@ -16,4 +16,3 @@ router.delete('/:id',deleteCircular)
 router.get('/add/acadamic_year',isLoggedIn,createfolder)
 
 module.exports=router;
-
